@@ -11,7 +11,7 @@ function StoreScreen:new()
 		menuBackground.anchorY = 0.5
 		self.menuBackground = menuBackground
 
-		local backBtn = self:getBtn("src/btnBack.png")
+		local backBtn = self:getBtn("src/btnBackRight.png")
 		backBtn.isVisible = false
 		self.backBtn  = backBtn
 	end

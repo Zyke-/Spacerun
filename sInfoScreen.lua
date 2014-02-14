@@ -5,24 +5,24 @@ function InfoScreen:new()
 	local screen = display.newGroup()
 
 	function screen:init()
-		infoGroup = display.newGroup()
+		local background = self:getBtn("src/bgMenu.png")
+		background.isVisible = false
 
-		local background = display.newImage("src/bgMenu.png")
-		local backBtn = self:getBtn("src/btnBack.png")
+		local backBtn = self:getBtn("src/btnBackLeft.png")
+
 		local creditsText = [[SPACERUN 
 			Created by Vince Games 
 			Version ]].. Version .. "." .. Build
-
+		print( creditsText )
 		local creditsOptions = {
 			text = creditsText,
-			x = W,
-			y = H,
 			width = 400,
 			height = 300,
 			fontSize = 18,
 			align = "center"
 		}
 		local credits = display.newText(creditsOptions)
+		credits:setFillColor(255, 255, 255)
 
 		background.anchorX = 0.5
 		background.anchorY = 0.5
@@ -32,24 +32,16 @@ function InfoScreen:new()
 
 		credits.anchorX = 0.5
 		credits.anchorY = 0.5
-		
-		setPos(background, centerX, centerY)
-		setPos(backBtn, W - backBtn.width * 2, backBtn.height * 2)
-		setPos(credits, centerX, centerY)
 
+		setPos(background, -centerX, centerY)
+		setPos(backBtn, -backBtn.width * 2, backBtn.height * 2)
+		setPos(credits, -centerX, -centerY)
 		backBtn:toFront()
-		infoGroup:insert(background)
-		infoGroup:insert(credits)
-		infoGroup:insert(backBtn)
+		credits:toFront()
 
-		infoGroup.isVisible = false
-		infoGroup.anchorX = 0.5
-		infoGroup.anchorY = 0.5
-
-		infoGroup:toFront()
-		backBtn:toFront()
-
-		self.infoGroup = infoGroup
+		self.background = background
+		self.credits = credits
+		self.backBtn = backBtn
 	end
 
 	function screen:getBtn(image)
@@ -79,32 +71,76 @@ function InfoScreen:new()
 	end
 
 	function screen:show()
-		local infoGroup = self.infoGroup
-		local inTime 	= 800
+		local background	= self.background
+		local credits 		= self.credits
+		local backBtn 		= self.backBtn
 
-		setPos(infoGroup, -centerX, centerY)
-		infoGroup:toFront()
-		infoGroup.isVisible = true
-		
-		self:cancelTween(infoGroup)
+		local backgroundIn	= centerX
+		local creditsIn		= centerX
+		local backBtnIn		= W - backBtn.width
 
-		infoGroup.tween = transition.to(infoGroup, {time = inTime, transition = easing.outExpo, x = centerX, y = centerY,
+		local inTime 		= 1200
+
+		setPos(background, -centerX, centerY)
+		setPos(backBtn, -backBtn.width * 2, backBtn.height * 2)
+		setPos(credits, -centerX, -centerY)
+
+		background.isVisible = true
+		credits.isVisible = true
+		backBtn.isVisible = true
+
+		self:cancelTween(background)
+		self:cancelTween(credits)
+		self:cancelTween(backBtn)
+
+		background.tween = transition.to(background, {time = inTime, transition = easing.outExpo, x = backgroundIn,
 			onComplete = function()
-			screen:cancelTween(infoGroup)
+			screen:cancelTween(background)
+		end
+		})
+		credits.tween = transition.to(credits, {time = inTime, transition = easing.outExpo, x = creditsIn,
+			onComplete = function()
+			screen:cancelTween(credits)
+		end
+		})	
+		backBtn.tween = transition.to(backBtn, {time = inTime, transition = easing.outExpo, x = backBtnIn,
+			onComplete = function()
+			screen:cancelTween(backBtn)
 		end
 		})		
 	end
 
 	function screen:hide()
-		local infoGroup = self.infoGroup
-		local outTime 		= 900
+		local background 	= self.background
+		local credits 		= self.credits
+		local backBtn  		= self.backBtn
 
-		self:cancelTween(infoGroup)
+		local backgroundOut = -W - centerX
+		local creditsOut	= -centerX
+		local backBtnOut	= -backBtn.width * 3
 
-		infoGroup.tween = transition.to(infoGroup, {time = outTime, transition = easing.outExpo, x = -centerX, y = centerY,
+		local outTime		= 900
+
+		self:cancelTween(background)
+		self:cancelTween(credits)
+		self:cancelTween(backBtn)
+
+		background.tween = transition.to(background, {transition = easing.outExpo, x = backgroundOut, time = outTime,
 			onComplete = function()
-			screen:cancelTween(infoGroup)
-			infoGroup.isVisible = false
+			screen:cancelTween(background)
+			background.isVisible = false
+		end
+		})
+		credits.tween = transition.to(credits, {transition = easing.outExpo, x = creditsOut, time = outTime,
+			onComplete = function()
+			screen:cancelTween(credits)
+			credits.isVisible = false
+		end
+		})
+		backBtn.tween = transition.to(backBtn, {transition = easing.outExpo, x = backBtnOut, time = outTime,
+			onComplete = function()
+			screen:cancelTween(backBtn)
+			backBtn.isVisible = false
 		end
 		})
 	end
