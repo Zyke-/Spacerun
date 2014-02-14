@@ -12,17 +12,19 @@ function InfoScreen:new()
 
 		local creditsText = [[SPACERUN 
 			Created by Vince Games 
-			Version ]].. Version .. "." .. Build
-		print( creditsText )
+			Version ]] .. getVesion()
+
 		local creditsOptions = {
 			text = creditsText,
-			width = 400,
-			height = 300,
+			x = centerX,
+			y = centerY,
+			width = 500,
+			height = 500,
 			fontSize = 18,
 			align = "center"
 		}
 		local credits = display.newText(creditsOptions)
-		credits:setFillColor(255, 255, 255)
+		credits:setFillColor(white)
 
 		background.anchorX = 0.5
 		background.anchorY = 0.5
@@ -35,9 +37,7 @@ function InfoScreen:new()
 
 		setPos(background, -centerX, centerY)
 		setPos(backBtn, -backBtn.width * 2, backBtn.height * 2)
-		setPos(credits, -centerX, -centerY)
-		backBtn:toFront()
-		credits:toFront()
+		setPos(credits, -centerX, centerY)
 
 		self.background = background
 		self.credits = credits
@@ -83,7 +83,7 @@ function InfoScreen:new()
 
 		setPos(background, -centerX, centerY)
 		setPos(backBtn, -backBtn.width * 2, backBtn.height * 2)
-		setPos(credits, -centerX, -centerY)
+		setPos(credits, -centerX, centerY)
 
 		background.isVisible = true
 		credits.isVisible = true
@@ -107,7 +107,8 @@ function InfoScreen:new()
 			onComplete = function()
 			screen:cancelTween(backBtn)
 		end
-		})		
+		})	
+		credits:toFront()	
 	end
 
 	function screen:hide()

@@ -10,7 +10,7 @@ Build = Build + 1
 saveValue("build.data", tostring(Build))
 
 print("\nSpacerun")
-print("Version: " .. Version, "Build: " .. Build, "\n")
+print("Version: " .. getVesion(), "\n")
 
 function HUD()
 	require "sStartScreen"

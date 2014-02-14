@@ -14,6 +14,11 @@ local tForEach = table.foreach
 centerX = W / 2
 centerY = H / 2
 
+function getVesion()
+	local ver = tostring(Version) .. "." .. tostring(Build)
+	return ver
+end
+
 function setPos(obj, x, y)
 	obj.x = x
 	obj.y = y
