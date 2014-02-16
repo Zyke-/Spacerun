@@ -15,9 +15,6 @@ function StartScreen:new()
 		local playBtn = self:getBtn("src/btnPlay.png")
 		self.playBtn = playBtn
 
-		local infoBtn = self:getBtn("src/btnInfo.png")
-		self.infoBtn = infoBtn
-
 		local storeBtn = self:getBtn("src/btnInfo.png")
 		self.storeBtn = storeBtn
 	end
@@ -52,8 +49,6 @@ function StartScreen:new()
 		if p == "ended" then
 			if tgt == self.playBtn then
 				Runtime:dispatchEvent({name = "playBtnTouched", target = sscreen})
-			elseif tgt == self.infoBtn then
-				Runtime:dispatchEvent({name = "infoBtnTouched", target = sscreen})
 			elseif tgt == self.storeBtn then
 				Runtime:dispatchEvent({name = "storeBtnTouched", target = sscreen})
 			end
@@ -66,7 +61,6 @@ function StartScreen:new()
 		local ssBackground = self.ssBackground
 		local ssTitle = self.ssTitle
 		local playBtn = self.playBtn
-		local infoBtn = self.infoBtn
 		local storeBtn = self.storeBtn
 
 		local inTime 		= 1250
@@ -74,18 +68,15 @@ function StartScreen:new()
 		setPos(ssBackground, centerX, centerY)
 		setPos(ssTitle, centerX, -centerY)
 		setPos(playBtn, centerX, -centerY)
-		setPos(infoBtn, centerX - infoBtn.width, H + centerY)
-		setPos(storeBtn, centerX + storeBtn.width, H + centerY)
+		setPos(storeBtn, centerX, H + centerY)
 
 		ssBackground.isVisible = true
-		infoBtn.isVisible = true
 		storeBtn.isVisible = true
 		ssTitle.isVisible = true
 		playBtn.isVisible = true
 
 		self:cancelTween(ssTitle)
 		self:cancelTween(playBtn)
-		self:cancelTween(infoBtn)
 		self:cancelTween(storeBtn)
 
 		ssTitle.tween = transition.to(ssTitle, {
@@ -106,15 +97,6 @@ function StartScreen:new()
 			sscreen:cancelTween(playBtn)
 			end
 		})
-		infoBtn.tween = transition.to(infoBtn, {
-				transition = easing.outExpo, 
-				y = centerY + 130,
-				time = inTime,
-
-			onComplete = function()
-			sscreen:cancelTween(infoBtn)
-			end
-		})
 		storeBtn.tween = transition.to(storeBtn, {
 				transition = easing.outExpo, 
 				y = centerY + 130,
@@ -130,14 +112,12 @@ function StartScreen:new()
 		local ssBackground = self.ssBackground
 		local ssTitle = self.ssTitle
 		local playBtn = self.playBtn
-		local infoBtn = self.infoBtn
 		local storeBtn = self.storeBtn
 
 		local outTime 		= 1000
 
 		self:cancelTween(ssTitle)
 		self:cancelTween(playBtn)
-		self:cancelTween(infoBtn)
 		self:cancelTween(storeBtn)
 	
 		playBtn.tween = transition.to(playBtn, {
@@ -158,17 +138,6 @@ function StartScreen:new()
 			onComplete = function()
 			sscreen:cancelTween(ssTitle)
 			ssTitle.isVisible = false
-			end
-		})
-
-		infoBtn.tween = transition.to(infoBtn, {
-				transition = easing.outExpo,
-				y = H + centerY,
-				time = outTime,
-
-			onComplete = function()
-			sscreen:cancelTween(infoBtn)
-			infoBtn.isVisible = false
 			end
 		})
 		storeBtn.tween = transition.to(storeBtn, {
@@ -189,7 +158,6 @@ function StartScreen:new()
 		local ssBackground = self.ssBackground
 		local ssTitle = self.ssTitle
 		local playBtn = self.playBtn
-		local infoBtn = self.infoBtn
 		local storeBtn = self.storeBtn
 
 		local inTime 		= 1250
@@ -197,18 +165,15 @@ function StartScreen:new()
 		setPos(ssBackground, centerX, centerY)
 		setPos(ssTitle, centerX, -centerY)
 		setPos(playBtn, centerX, -centerY)
-		setPos(infoBtn, centerX - infoBtn.width, H + centerY)
 		setPos(storeBtn, centerX + storeBtn.width, H + centerY)
 
 		ssBackground.isVisible = true
-		infoBtn.isVisible = true
 		storeBtn.isVisible = true
 		ssTitle.isVisible = true
 		playBtn.isVisible = true
 
 		self:cancelTween(ssTitle)
 		self:cancelTween(playBtn)
-		self:cancelTween(infoBtn)
 		self:cancelTween(storeBtn)
 
 		ssTitle.tween = transition.to(ssTitle, {
@@ -227,15 +192,6 @@ function StartScreen:new()
 
 			onComplete = function()
 			sscreen:cancelTween(playBtn)
-			end
-		})
-		infoBtn.tween = transition.to(infoBtn, {
-				transition = easing.outExpo, 
-				y = centerY + 130,
-				time = inTime,
-
-			onComplete = function()
-			sscreen:cancelTween(infoBtn)
 			end
 		})
 		storeBtn.tween = transition.to(storeBtn, {
@@ -253,7 +209,6 @@ function StartScreen:new()
 		local ssBackground = self.ssBackground
 		local ssTitle = self.ssTitle
 		local playBtn = self.playBtn
-		local infoBtn = self.infoBtn
 		local storeBtn = self.storeBtn
 
 		local inTime 		= 1250
@@ -261,18 +216,15 @@ function StartScreen:new()
 		setPos(ssBackground, centerX, centerY)
 		setPos(ssTitle, centerX, -centerY)
 		setPos(playBtn, centerX, -centerY)
-		setPos(infoBtn, centerX - infoBtn.width, H + centerY)
 		setPos(storeBtn, centerX + storeBtn.width, H + centerY)
 
 		ssBackground.isVisible = true
-		infoBtn.isVisible = true
 		storeBtn.isVisible = true
 		ssTitle.isVisible = true
 		playBtn.isVisible = true
 
 		self:cancelTween(ssTitle)
 		self:cancelTween(playBtn)
-		self:cancelTween(infoBtn)
 		self:cancelTween(storeBtn)
 
 		ssTitle.tween = transition.to(ssTitle, {
@@ -293,15 +245,6 @@ function StartScreen:new()
 			sscreen:cancelTween(playBtn)
 			end
 		})
-		infoBtn.tween = transition.to(infoBtn, {
-				transition = easing.outExpo, 
-				y = centerY + 130,
-				time = inTime,
-
-			onComplete = function()
-			sscreen:cancelTween(infoBtn)
-			end
-		})
 		storeBtn.tween = transition.to(storeBtn, {
 				transition = easing.outExpo, 
 				y = centerY + 130,
@@ -317,14 +260,12 @@ function StartScreen:new()
 		local ssBackground = self.ssBackground
 		local ssTitle = self.ssTitle
 		local playBtn = self.playBtn
-		local infoBtn = self.infoBtn
 		local storeBtn = self.storeBtn
 
 		local outTime 		= 1000
 
 		self:cancelTween(ssTitle)
 		self:cancelTween(playBtn)
-		self:cancelTween(infoBtn)
 		self:cancelTween(storeBtn)
 	
 		playBtn.tween = transition.to(playBtn, {
@@ -345,17 +286,6 @@ function StartScreen:new()
 			onComplete = function()
 			sscreen:cancelTween(ssTitle)
 			ssTitle.isVisible = false
-			end
-		})
-
-		infoBtn.tween = transition.to(infoBtn, {
-				transition = easing.outExpo,
-				y = H + centerY,
-				time = outTime,
-
-			onComplete = function()
-			sscreen:cancelTween(infoBtn)
-			infoBtn.isVisible = false
 			end
 		})
 		storeBtn.tween = transition.to(storeBtn, {

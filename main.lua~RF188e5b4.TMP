@@ -4,7 +4,7 @@
 require "api"
 require "beebegames"
 
-Version = "0.5.5"
+Version = "0.5.4"
 Build = loadValue("build.data")
 Build = Build + 1
 saveValue("build.data", tostring(Build))
@@ -46,7 +46,6 @@ function init()
 	fuelToAdd = 5
 	firstPlay = true
 	canPlay = true
-	canStore = true
 
 	backgroundMusic = audio.loadStream("src/backgroundMusic.mp3")
 	audio.setMaxVolume(.9)
@@ -66,25 +65,10 @@ function loadHighScore()
 	setPos(highScoreText, centerX, centerY + 90)
 end
 
-function loadCredits()
-    versionText = display.newText("Spacerun Version " .. getVesion(), 0, 0, native.systemFont, 12)
-    creditsText = display.newText("By Vince Games", 0, 0, native.systemFont, 12)
-
-	creditsText.anchorX = .5
-	creditsText.anchorY = .5
-
-	creditsText.anchorX = .5
-	creditsText.anchorY = .5
-
-	setPos(creditsText, 0 + creditsText.width/4, H - creditsText.height)
-	setPos(versionText, W - versionText.width/4, H - versionText.height)
-end
-
 function startScreenHandler()
 	startScreen:toFront()
 	startScreen:show()
 	loadHighScore()
-	loadCredits()
 
 	Runtime:addEventListener("playBtnTouched", function(e)
 		if canPlay then
@@ -101,15 +85,12 @@ function startScreenHandler()
 		end
 	end)		
 	Runtime:addEventListener("storeBtnTouched", function(e)
-		if canStore then
-			canStore = false
-			canPlay = false
-			storeScreen:show()
-			storeScreen:toFront()
-		end
+		canPlay = false
+		storeScreen:show()
+		storeScreen:toFront()
+
 		Runtime:addEventListener("backBtnSTouched", function(e)
 			storeScreen:hide()
-			canStore = true
 			canPlay = true
 		end)
 	end)

@@ -76,8 +76,8 @@ function loadCredits()
 	creditsText.anchorX = .5
 	creditsText.anchorY = .5
 
-	setPos(creditsText, 0 + creditsText.width/4, H - creditsText.height)
-	setPos(versionText, W - versionText.width/4, H - versionText.height)
+	setPos(creditsText, 0, H - creditsText.height)
+	setPos(versionText, W, H - versionText.height)
 end
 
 function startScreenHandler()

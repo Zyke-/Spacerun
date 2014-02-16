@@ -5,43 +5,44 @@ function InfoScreen:new()
 	local screen = display.newGroup()
 
 	function screen:init()
-		local background = self:getBtn("src/bgMenu.png")
-		background.isVisible = false
+		local slide = display.newGroup()
 
+		local background = display.newRect(0, 0, W, H)
+		background:setFillColor(255, 255, 255)
 		local backBtn = self:getBtn("src/btnBackLeft.png")
-
 		local creditsText = [[SPACERUN 
 			Created by Vince Games 
 			Version ]] .. getVesion()
 
 		local creditsOptions = {
 			text = creditsText,
+			width = 240,
+			height = 160,
+			anchorX = 0.5,
+			anchorY = 0.5,
 			x = centerX,
 			y = centerY,
-			width = 500,
-			height = 500,
-			fontSize = 18,
+			fontSize = 14,
+			font = native.systemFont,
 			align = "center"
 		}
 		local credits = display.newText(creditsOptions)
-		credits:setFillColor(white)
-
-		background.anchorX = 0.5
-		background.anchorY = 0.5
+		credits:setFillColor(255, 255, 255)
 
 		backBtn.anchorX = 0.5
 		backBtn.anchorY = 0.5
 
-		credits.anchorX = 0.5
-		credits.anchorY = 0.5
+		setPos(background, 0, 0)
+		setPos(backBtn, W - backBtn.width * 2, backBtn.height * 2)
+		setPos(credits, centerX, centerY)
 
-		setPos(background, -centerX, centerY)
-		setPos(backBtn, -backBtn.width * 2, backBtn.height * 2)
-		setPos(credits, -centerX, centerY)
+		slide:insert(1, background, true)
+		slide:insert(2, backBtn, true)
+		slide:insert(3, credits, true)
 
-		self.background = background
-		self.credits = credits
-		self.backBtn = backBtn
+		slide.isVisible = true
+
+		self.slide = slide
 	end
 
 	function screen:getBtn(image)
@@ -71,77 +72,34 @@ function InfoScreen:new()
 	end
 
 	function screen:show()
-		local background	= self.background
-		local credits 		= self.credits
-		local backBtn 		= self.backBtn
-
-		local backgroundIn	= centerX
-		local creditsIn		= centerX
-		local backBtnIn		= W - backBtn.width
-
+		local slide 		= self.slide
+		local slideIn 		= 0
 		local inTime 		= 1200
 
-		setPos(background, -centerX, centerY)
-		setPos(backBtn, -backBtn.width * 2, backBtn.height * 2)
-		setPos(credits, -centerX, centerY)
+		setPos(slide, 0, 0)
 
-		background.isVisible = true
-		credits.isVisible = true
-		backBtn.isVisible = true
+		slide.isVisible = true
 
-		self:cancelTween(background)
-		self:cancelTween(credits)
-		self:cancelTween(backBtn)
+		self:cancelTween(slide)
 
-		background.tween = transition.to(background, {time = inTime, transition = easing.outExpo, x = backgroundIn,
+		slide = transition.to(slide, {time = inTime, transition = easing.outExpo, x = slideIN,
 			onComplete = function()
-			screen:cancelTween(background)
-		end
-		})
-		credits.tween = transition.to(credits, {time = inTime, transition = easing.outExpo, x = creditsIn,
-			onComplete = function()
-			screen:cancelTween(credits)
+			screen:cancelTween(slide)
 		end
 		})	
-		backBtn.tween = transition.to(backBtn, {time = inTime, transition = easing.outExpo, x = backBtnIn,
-			onComplete = function()
-			screen:cancelTween(backBtn)
-		end
-		})	
-		credits:toFront()	
 	end
 
 	function screen:hide()
-		local background 	= self.background
-		local credits 		= self.credits
-		local backBtn  		= self.backBtn
-
-		local backgroundOut = -W - centerX
-		local creditsOut	= -centerX
-		local backBtnOut	= -backBtn.width * 3
-
+		local slide 		= self.slide
+		local slideOut		= -W
 		local outTime		= 900
 
-		self:cancelTween(background)
-		self:cancelTween(credits)
-		self:cancelTween(backBtn)
+		self:cancelTween(slide)
 
-		background.tween = transition.to(background, {transition = easing.outExpo, x = backgroundOut, time = outTime,
+		slide.tween = transition.to(slide, {time = outTime, transition = easing.outExpo, x = slideOut, 
 			onComplete = function()
-			screen:cancelTween(background)
-			background.isVisible = false
-		end
-		})
-		credits.tween = transition.to(credits, {transition = easing.outExpo, x = creditsOut, time = outTime,
-			onComplete = function()
-			screen:cancelTween(credits)
-			credits.isVisible = false
-		end
-		})
-		backBtn.tween = transition.to(backBtn, {transition = easing.outExpo, x = backBtnOut, time = outTime,
-			onComplete = function()
-			screen:cancelTween(backBtn)
-			backBtn.isVisible = false
+			screen:cancelTween(slide)
+			slide.isVisible = false
 		end
 		})
 	end
