@@ -23,7 +23,7 @@ function StoreScreen:new()
 		    align = "center" 
 		}
 		local text = self:getTxt(optionsText, 1, 1, 1)
-		text.isVisible = true
+		text.isVisible = false
 		self.text = text
 	end
 

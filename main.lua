@@ -4,7 +4,7 @@
 require "api"
 require "beebegames"
 
-Version = "0.5.5"
+Version = "0.5.6"
 Build = loadValue("build.data")
 Build = Build + 1
 saveValue("build.data", tostring(Build))
@@ -37,7 +37,7 @@ function init()
 
 	--backgroundMusic = audio.loadStream("src/backgroundMusic.mp3")
 	sfxExplosion = audio.loadSound("sfx/explosion.mp3")
-	audio.setMaxVolume(.5)
+	audio.setMaxVolume(.8)
 
 	local physics = require "physics"
 	physics.start()
@@ -233,7 +233,7 @@ function displayScore()
 	end
 	textScore = display.newText("Score: ", 0, 0, native.systemFont, 18)
 	setPos(textScore, 10, 30)
-	textScore:setTextColor(255, 255, 255)
+	textScore:setFillColor(1, 1, 1)
 	updateScore()
 end
 
