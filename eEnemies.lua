@@ -34,6 +34,7 @@ function Enemies:spawn()
 							playerLife = playerLife - 1
 						end
 						if playerLife == 0 then
+							audio.play(sfxExplosion)
 							isDead = true
 							gameOver(isDead)
 						end

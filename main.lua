@@ -48,8 +48,9 @@ function init()
 	canPlay = true
 	canStore = true
 
-	backgroundMusic = audio.loadStream("src/backgroundMusic.mp3")
-	audio.setMaxVolume(.9)
+	--backgroundMusic = audio.loadStream("src/backgroundMusic.mp3")--load your sound effect near the beginning of your file
+	sfxExplosion = audio.loadSound("sfx/explosion.wav")
+	audio.setMaxVolume(.5)
 end
 
 function loadHighScore()
