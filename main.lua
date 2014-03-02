@@ -67,8 +67,8 @@ function loadHighScore()
 end
 
 function loadCredits()
-    versionText = display.newText("Spacerun Version " .. getVesion(), 0, 0, native.systemFont, 12)
-    creditsText = display.newText("By Vince Games", 0, 0, native.systemFont, 12)
+    versionText = display.newText("Version " .. getVesion(), 0, 0, native.systemFont, 11)
+    creditsText = display.newText("Vince Games", 0, 0, native.systemFont, 11)
 
 	creditsText.anchorX = .5
 	creditsText.anchorY = .5
@@ -76,8 +76,8 @@ function loadCredits()
 	creditsText.anchorX = .5
 	creditsText.anchorY = .5
 
-	setPos(creditsText, 0 + creditsText.width/4, H - creditsText.height)
-	setPos(versionText, W - versionText.width/4, H - versionText.height)
+	setPos(creditsText, 0 + creditsText.width/5, H - creditsText.height)
+	setPos(versionText, W - versionText.width/5, H - versionText.height)
 end
 
 function startScreenHandler()
@@ -88,11 +88,16 @@ function startScreenHandler()
 
 	Runtime:addEventListener("playBtnTouched", function(e)
 		if canPlay then
+			display.remove(versionText)
+			versionText = nil
+			display.remove(creditsText)
+    		creditsText = nil
 			startScreen:hide()
 			if highScoreText ~= nil then
 				display.remove(highScoreText)
 				highScoreText = nil
 			end
+			
 			displayDifficulty()
 			Runtime:removeEventListener("palyBtnTouched")
 			Runtime:removeEventListener("backBtnITouched")
@@ -353,12 +358,12 @@ end
 
 function pauseToggle()
 	function pauseGame()
+		Player:stopPlayer()
 		physics.pause()
 		btnPause.alpha = .1
 		pauseAllTimers()
 		menuScreen:show()
-		Player:stopPlayer()
-
+		
 		audio.setVolume(.2)
 
 		paused = true

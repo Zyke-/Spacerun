@@ -11,9 +11,6 @@ function MenuScreen:new()
 
 		local continueBtn = self:getBtn("src/btnCon.png")
 		self.continueBtn  = continueBtn
-
-		local musicBtn = self:getBtn("src/btnMus.png")
-		self.musicBtn  = musicBtn
 	end
 
 	function mscreen:getBtn(image)
@@ -37,9 +34,6 @@ function MenuScreen:new()
 		if p == "ended" then
 			if tgt == self.continueBtn then
 				Runtime:dispatchEvent({name = "continueBtnTouched", target = mscreen})
-
-			elseif tgt == self.musicBtn then
-				Runtime:dispatchEvent({name = "musicBtnTouched", target = mscreen})
 			end
 
 			return true
@@ -49,7 +43,6 @@ function MenuScreen:new()
 	function mscreen:show()
 		local menuBackground = self.menuBackground
 		local continueBtn 	= self.continueBtn
-		local musicBtn 		= self.musicBtn
 
 		local inTime 		= 700
 
@@ -59,12 +52,8 @@ function MenuScreen:new()
 		setPos(continueBtn, centerX, -centerY)
 		continueBtn.isVisible = true
 
-		setPos(musicBtn, centerX, -centerY)
-		musicBtn.isVisible = true
-
 		self:cancelTween(menuBackground)
 		self:cancelTween(continueBtn)
-		self:cancelTween(musicBtn)
 
 		menuBackground.tween = transition.to(menuBackground, {time = inTime, transition = easing.outExpo, y = centerY,
 			onComplete = function()
@@ -77,24 +66,16 @@ function MenuScreen:new()
 			mscreen:cancelTween(continueBtn)
 		end
 		})
-
-		musicBtn.tween = transition.to(musicBtn, {time = inTime, transition = easing.outExpo, y = centerY + continueBtn.height,
-			onComplete = function()
-			mscreen:cancelTween(musicBtn)
-		end
-		})
 	end
 
 	function mscreen:hide()
 		local menuBackground = self.menuBackground
 		local continueBtn   = self.continueBtn
-		local musicBtn 		= self.musicBtn
 
 		local outTime 		= 350
 
 		self:cancelTween(menuBackground)
 		self:cancelTween(continueBtn)
-		self:cancelTween(musicBtn)
 
 		menuBackground.tween = transition.to(menuBackground, {transition = easing.outExpo, y = H + 150, time = outTime,
 			onComplete = function()
@@ -107,13 +88,6 @@ function MenuScreen:new()
 			onComplete = function()
 			mscreen:cancelTween(continueBtn)
 			continueBtn.isVisible = false
-		end
-		})
-
-		musicBtn.tween = transition.to(musicBtn, {transition = easing.outExpo, y = H + 150, time = outTime,
-			onComplete = function()
-			mscreen:cancelTween(musicBtn)
-			musicBtn.isVisible = false
 		end
 		})
 	end

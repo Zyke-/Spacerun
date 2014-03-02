@@ -5,7 +5,7 @@ function Player:spawn()
 	player.myName = "player"
 	setScale(player, .9)
 	player.alpha = 1
-	setPos(player, centerX / 5, centerY)
+	setPos(player, centerX / 6, centerY)
 	physics.addBody(player, "static")
 
 	function movePlayerToPos(eventP)
@@ -22,10 +22,11 @@ function Player:spawn()
 	end
 
 	function Player:stopPlayer()
+		setPos(player, player.x, player.y)
 		if player.tween ~= nil then
 			transition.cancel(player.tween)
 			player.tween = nil
-		end
+		end		
 		Runtime:removeEventListener("touch", movePlayerToPos)
 	end
 
