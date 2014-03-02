@@ -6,8 +6,12 @@ function DifficultyScreen:new()
 
 	function dscreen:init()
 		local bg = self:getBtn("src/bgMenu.png")
-		self.bg = bg
 		bg.isVisible = false
+		self.bg = bg
+
+		local backBtn = self:getBtn("src/btnBackLeft.png")
+		backBtn.isVisible = false
+		self.backBtn = backBtn
 
 		local normal = self:getBtn("src/normalBtn.png")
 		self.normal = normal
@@ -64,6 +68,9 @@ function DifficultyScreen:new()
 
 			elseif tgt == self.hardcore then
 				Runtime:dispatchEvent({name = "hardcoreBtnTouched", target = dscreen})
+
+			elseif tgt == self.backBtn then
+				Runtime:dispatchEvent({name = "difficultyBackBtnTouched", target = dscreen})
 			end
 
 			return true
@@ -72,6 +79,7 @@ function DifficultyScreen:new()
 
 	function dscreen:show()
 		local bg 			= self.bg
+		local backBtn 		= self.backBtn
 		local normal 		= self.normal
 		local hard 			= self.hard
 		local hardcore 		= self.hardcore
@@ -84,6 +92,9 @@ function DifficultyScreen:new()
 
 		setPos(bg, centerX, centerY)
 		bg.isVisible = true
+
+		setPos(backBtn, backBtn.width, backBtn.height)
+		backBtn.isVisible = true
 
 		setPos(normal, centerX - normal.width - 15, -centerY)
 		normal.isVisible = true
@@ -107,26 +118,30 @@ function DifficultyScreen:new()
 		hardDex:toFront()
 		hardcoreDex:toFront()
 
+		self:cancelTween(backBtn)
 		self:cancelTween(normal)
 		self:cancelTween(hard)
 		self:cancelTween(hardcore)
 
 		self:cancelTween(normalDex)
 		self:cancelTween(hardDex)
-		self:cancelTween(hardDex)
+		self:cancelTween(hardcoreDex)
 
+		backBtn.tween = transition.to(backBtn, {time = inTime, transition = easing.outExpo, y = backBtn.height,
+			onComplete = function()
+			dscreen:cancelTween(backBtn)
+		end
+		})
 		normal.tween = transition.to(normal, {time = inTime, transition = easing.outExpo, y = centerY - 35,
 			onComplete = function()
 			dscreen:cancelTween(normal)
 		end
 		})
-
 		hard.tween = transition.to(hard, {time = inTime, transition = easing.outExpo, y = centerY - 35,
 			onComplete = function()
 			dscreen:cancelTween(hard)
 		end
 		})
-
 		hardcore.tween = transition.to(hardcore, {time = inTime, transition = easing.outExpo, y = centerY - 35,
 			onComplete = function()
 			dscreen:cancelTween(hardcore)
@@ -138,22 +153,22 @@ function DifficultyScreen:new()
 			dscreen:cancelTween(normalDex)
 		end
 		})
-
 		hardDex.tween = transition.to(hardDex, {time = inTime, transition = easing.outExpo, y = centerY + 75,
 			onComplete = function()
 			dscreen:cancelTween(hardDex)
 		end
 		})
-
 		hardcoreDex.tween = transition.to(hardcoreDex, {time = inTime, transition = easing.outExpo, y = centerY + 75,
 			onComplete = function()
 			dscreen:cancelTween(hardcoreDex)
+			hardcoreDex.isVisible = true
 		end
 		})
 	end
 
 	function dscreen:hide()
 		local bg			= self.bg
+		local backBtn 		= self.backBtn
 		local normal 		= self.normal
 		local hard 			= self.hard
 		local hardcore 		= self.hardcore
@@ -164,6 +179,8 @@ function DifficultyScreen:new()
 
 		local outTime 		= 2000
 
+		self:cancelTween(backBtn)
+
 		self:cancelTween(normal)
 		self:cancelTween(hard)
 		self:cancelTween(hardcore)
@@ -173,7 +190,14 @@ function DifficultyScreen:new()
 		self:cancelTween(hardDex)
 		
 		bg.isVisible = false
-		
+
+		backBtn.tween = transition.to(backBtn, {transition = easing.outExpo, y = -backBtn.height, time = outTime,
+			onComplete = function()
+			dscreen:cancelTween(backBtn)
+			backBtn.isVisible = false
+		end
+		})
+
 		normal.tween = transition.to(normal, {transition = easing.outExpo, x = -normal.width, time = outTime,
 			onComplete = function()
 			dscreen:cancelTween(normal)

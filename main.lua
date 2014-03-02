@@ -35,6 +35,10 @@ function init()
 	require "eHearts"
 	require "eFuels"
 
+	--backgroundMusic = audio.loadStream("src/backgroundMusic.mp3")
+	sfxExplosion = audio.loadSound("sfx/explosion.mp3")
+	audio.setMaxVolume(.5)
+
 	local physics = require "physics"
 	physics.start()
 	gravitySpeed = 4
@@ -47,10 +51,6 @@ function init()
 	firstPlay = true
 	canPlay = true
 	canStore = true
-
-	--backgroundMusic = audio.loadStream("src/backgroundMusic.mp3")--load your sound effect near the beginning of your file
-	sfxExplosion = audio.loadSound("sfx/explosion.wav")
-	audio.setMaxVolume(.5)
 end
 
 function loadHighScore()
@@ -124,6 +124,10 @@ end
 function displayDifficulty()
 	difficultyScreen:toFront()
 	difficultyScreen:show()
+	Runtime:addEventListener("difficultyBackBtnTouched", function(e)
+		difficultyScreen:hide()
+		startScreenHandler()
+	end)
 
 	Runtime:addEventListener("normalBtnTouched", function(e)
 		difficultyScreen:hide()
