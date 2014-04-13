@@ -4,9 +4,9 @@
 require "api"
 require "beebegames"
 
-Version = "0.5.6"
+Version = "1.0b"
 Build = loadValue("build.data")
-Build = Build + 1
+Build = (Build + 1)*0
 saveValue("build.data", tostring(Build))
 
 print("\nSpacerun")
@@ -296,13 +296,8 @@ function displayMenu()
 	menuScreen = MenuScreen:new()
 	menuScreen.isVisible = false
 
-	Runtime:addEventListener("continueBtnTouched", function(e)
-		resumeGame()
-	end)
-
-	Runtime:addEventListener("musicBtnTouched", function(e)
-		musicSwitch()
-	end)
+	Runtime:addEventListener("continueBtnTouched", function(e) resumeGame() end)
+	Runtime:addEventListener("musicBtnTouched", function(e) musicSwitch() end)
 end
 
 function gameOver(death)

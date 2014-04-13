@@ -11,6 +11,9 @@ function MenuScreen:new()
 
 		local continueBtn = self:getBtn("src/btnCon.png")
 		self.continueBtn  = continueBtn
+
+		local giveupBtn = self:getBtn("src/btnGiveup.png")
+		self.giveupBtn = giveupBtn 
 	end
 
 	function mscreen:getBtn(image)
@@ -35,6 +38,12 @@ function MenuScreen:new()
 			if tgt == self.continueBtn then
 				Runtime:dispatchEvent({name = "continueBtnTouched", target = mscreen})
 			end
+			if tgt == self.giveupBtn then
+				btnPause.alpha = 1
+				menuScreen:hide()
+				isDead = true
+				gameOver(isDead)
+			end
 
 			return true
 		end
@@ -43,6 +52,7 @@ function MenuScreen:new()
 	function mscreen:show()
 		local menuBackground = self.menuBackground
 		local continueBtn 	= self.continueBtn
+		local giveupBtn = self.giveupBtn
 
 		local inTime 		= 700
 
@@ -52,8 +62,12 @@ function MenuScreen:new()
 		setPos(continueBtn, centerX, -centerY)
 		continueBtn.isVisible = true
 
+		setPos(giveupBtn, centerX, -centerY)
+		giveupBtn.isVisible = true
+
 		self:cancelTween(menuBackground)
 		self:cancelTween(continueBtn)
+		self:cancelTween(giveupBtn)
 
 		menuBackground.tween = transition.to(menuBackground, {time = inTime, transition = easing.outExpo, y = centerY,
 			onComplete = function()
@@ -66,16 +80,24 @@ function MenuScreen:new()
 			mscreen:cancelTween(continueBtn)
 		end
 		})
+
+		giveupBtn.tween = transition.to(giveupBtn, {time = inTime, transition = easing.outExpo, y = centerY + 50,
+			onComplete = function()
+			mscreen:cancelTween(giveupBtn)
+		end
+		})
 	end
 
 	function mscreen:hide()
 		local menuBackground = self.menuBackground
 		local continueBtn   = self.continueBtn
+		local giveupBtn = self.giveupBtn
 
 		local outTime 		= 350
 
 		self:cancelTween(menuBackground)
 		self:cancelTween(continueBtn)
+		self:cancelTween(giveupBtn)
 
 		menuBackground.tween = transition.to(menuBackground, {transition = easing.outExpo, y = H + 150, time = outTime,
 			onComplete = function()
@@ -88,6 +110,13 @@ function MenuScreen:new()
 			onComplete = function()
 			mscreen:cancelTween(continueBtn)
 			continueBtn.isVisible = false
+		end
+		})
+
+		giveupBtn.tween = transition.to(giveupBtn, {transition = easing.outExpo, y = H + 150, time = outTime,
+			onComplete = function()
+			mscreen:cancelTween(giveupBtn)
+			giveupBtn.isVisible = false
 		end
 		})
 	end
